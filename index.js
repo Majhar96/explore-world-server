@@ -40,6 +40,7 @@ async function run() {
         // Get single service
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
+            console.log('getting service', id);
             const query = { _id: ObjectId(id) };
             const service = await servicesCollection.findOne(query);
             res.json(service);
@@ -54,9 +55,18 @@ async function run() {
 
             const result = await servicesCollection.insertOne(service);
             console.log(result);
-            res.send(result)
+            res.json(result)
 
         })
+
+        // delete Api
+        app.delete('/services/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await servicesCollection.deleteOne(query);
+            res.json(result);
+        })
+
     }
     finally {
 
